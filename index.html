@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Herosalman1 Tools Dashboard</title>
     <style>
         /* Modern Font & Reset */
@@ -31,7 +31,7 @@
             max-width: 950px;
             background-color: #161b22;
             border-radius: 16px;
-            padding: 40px;
+            padding: 30px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.4);
             border: 1px solid #30363d;
         }
@@ -40,8 +40,8 @@
         h1 {
             text-align: center;
             color: #00ff88;
-            margin-bottom: 40px;
-            font-size: 26px;
+            margin-bottom: 35px;
+            font-size: 28px;
             font-weight: 700;
             letter-spacing: 0.5px;
             text-shadow: 0 0 10px rgba(0, 255, 136, 0.2);
@@ -55,24 +55,28 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            text-align: left;
         }
 
+        /* Classes for columns to control width and spacing perfectly */
+        .col-sno { width: 10%; text-align: center; }
+        .col-name { width: auto; text-align: left; padding-left: 10px; }
+        .col-action { width: 1%; white-space: nowrap; text-align: right; } /* 1% trick to shrink action column */
+
         th, td {
-            padding: 18px 20px;
+            padding: 20px 10px;
         }
 
         th {
             color: #8b949e;
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
+            letter-spacing: 1px;
             border-bottom: 1px solid #30363d;
         }
 
         td {
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 500;
             border-bottom: 1px solid #21262d;
             word-break: break-word;
@@ -80,10 +84,6 @@
 
         tr:last-child td {
             border-bottom: none; 
-        }
-
-        tr {
-            transition: background-color 0.2s ease;
         }
 
         tr:hover {
@@ -95,10 +95,10 @@
             background-color: #00ea77;
             color: #000000;
             border: none;
-            padding: 8px 24px;
+            padding: 10px 24px;
             border-radius: 8px;
             font-weight: 700;
-            font-size: 13px;
+            font-size: 14px;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 10px rgba(0, 234, 119, 0.2);
@@ -111,36 +111,34 @@
             box-shadow: 0 6px 15px rgba(0, 234, 119, 0.4);
         }
 
-        .visit-btn:active {
-            transform: translateY(0);
-        }
-
-        /* ===== MOBILE RESPONSIVE CSS (Ab Thoda Bada Dikhne Ke Liye) ===== */
+        /* ===== MOBILE RESPONSIVE CSS (Bigger, Tighter, Better) ===== */
         @media screen and (max-width: 600px) {
             body {
-                padding: 15px 5px; /* Side ki blank space kam ki taaki page bada ho */
+                padding: 10px 5px; /* Side margin ekdum kam kar diya taaki screen width mile */
             }
             .container {
-                padding: 20px 10px; 
+                padding: 20px 8px; 
                 border-radius: 12px;
             }
             h1 {
-                font-size: 22px; /* Title thoda aur bada kiya */
-                margin-bottom: 25px;
+                font-size: 24px; 
+                margin-bottom: 20px;
             }
             th, td {
-                padding: 15px 8px; /* Rows (lines) ke beech ki height badhayi */
+                padding: 18px 5px; /* Horizontal gap kam kiya, Vertical size badhaya */
             }
             th {
-                font-size: 12px; /* Table ki headings (S.NO, TOOLS) badi ki */
-                letter-spacing: 1px;
+                font-size: 11px;
             }
-            td {
-                font-size: 15px; /* Tools ke naam ka font bada kiya */
-            }
+            
+            /* Text & Column Adjustments for Mobile */
+            .col-sno { width: 12%; font-size: 14px; }
+            .col-name { font-size: 17px; font-weight: 600; } /* Text ekdum bold aur bada kiya */
+            
+            /* Button Bada Kiya */
             .visit-btn {
-                padding: 8px 16px; /* Button ko thoda lamba aur chouda kiya */
-                font-size: 13px; /* Button ke andar ka text bada kiya */
+                padding: 12px 18px; 
+                font-size: 14px; 
             }
         }
     </style>
@@ -154,9 +152,9 @@
             <table>
                 <thead>
                     <tr>
-                        <th width="15%">S.NO</th>
-                        <th width="60%">TOOLS NAME</th>
-                        <th width="25%">ACTION</th>
+                        <th class="col-sno">S.NO</th>
+                        <th class="col-name">TOOLS NAME</th>
+                        <th class="col-action">ACTION</th>
                     </tr>
                 </thead>
                 <tbody id="toolsListBody">
@@ -177,7 +175,7 @@
                 if (myTools.length === 0) {
                     tableBody.innerHTML = `
                         <tr>
-                            <td colspan="3" style="text-align:center; color:#8b949e; padding: 30px;">
+                            <td colspan="3" style="text-align:center; color:#8b949e; padding: 30px; font-size: 16px;">
                                 Abhi koi tool add nahi hua hai. Admin panel se add karein!
                             </td>
                         </tr>`;
@@ -188,9 +186,9 @@
                     const row = document.createElement('tr');
                     
                     row.innerHTML = `
-                        <td>${index + 1}</td>
-                        <td style="color: #ffffff;">${tool.name}</td>
-                        <td>
+                        <td class="col-sno">${index + 1}</td>
+                        <td class="col-name" style="color: #ffffff;">${tool.name}</td>
+                        <td class="col-action">
                             <button class="visit-btn" onclick="visitSite('${tool.url}')">VISIT 🚀</button>
                         </td>
                     `;
@@ -200,7 +198,7 @@
             })
             .catch(error => {
                 console.error('Error:', error);
-                tableBody.innerHTML = '<tr><td colspan="3" style="text-align:center; color:#da3633;">Data load nahi ho paya!</td></tr>';
+                tableBody.innerHTML = '<tr><td colspan="3" style="text-align:center; color:#da3633; font-size: 16px;">Data load nahi ho paya!</td></tr>';
             });
 
         // Background me link open karne ka function
