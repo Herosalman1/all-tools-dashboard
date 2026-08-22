@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- Ye line mobile ko bata rahi hai ki screen ko zoom out NAHI karna hai -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Herosalman1 Tools Dashboard</title>
     <style>
@@ -14,7 +13,7 @@
         body {
             background-color: #0d1117; 
             color: #c9d1d9;
-            padding: 15px 10px; /* Screen ke kinare par bohot kam gap */
+            padding: 15px 10px;
         }
 
         .container {
@@ -28,24 +27,25 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        /* 👑 HEADING EKDUM BADI 👑 */
+        /* 👑 HEADING EKDUM EK LINE MEIN AAYEGI 👑 */
         h1 {
             text-align: center;
             color: #00ff88;
             margin-bottom: 25px;
-            font-size: 26px; /* Bada Font */
+            font-size: 19px; /* Size adjust kiya taaki ek line me aaye */
             font-weight: 800;
+            white-space: nowrap; /* Ye line heading ko next line me jaane se rokegi */
             text-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
         }
 
-        /* 📱 MOBILE APP JAISA LIST BOX 📱 */
+        /* 📱 LIST BOXES (Perfect Size) 📱 */
         .list-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
             background-color: #010409;
-            margin-bottom: 15px; /* Ek tool se dusre ke beech ka gap */
-            padding: 16px 15px; /* Box ke andar ki space (Bada banayega) */
+            margin-bottom: 12px; 
+            padding: 12px 14px; /* Box thoda medium kiya */
             border-radius: 12px;
             border: 1px solid #30363d;
         }
@@ -53,41 +53,39 @@
         .item-info {
             display: flex;
             align-items: center;
-            gap: 15px; 
+            gap: 12px; 
             flex: 1;
-            overflow: hidden;
         }
 
         .sno {
             color: #8b949e;
-            font-size: 18px; /* S.No Bada */
+            font-size: 14px; /* Serial no. ka size kam kiya */
             font-weight: 600;
-            min-width: 25px;
+            min-width: 22px;
         }
 
-        /* 📝 TOOLS KA NAAM BOHOT BADA 📝 */
+        /* 📝 TOOLS KA NAAM BINA KATE POORA DIKHEGA 📝 */
         .tool-name {
             color: #ffffff;
-            font-size: 20px; /* Bada Size! */
+            font-size: 15px; /* Size thoda kam kiya */
             font-weight: 700;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            line-height: 1.3;
+            word-break: break-word; /* Agar naam bada hua to '...' ki jagah poora dikhayega */
         }
 
-        /* 🚀 VISIT BUTTON BADA AUR CHOUDA 🚀 */
+        /* 🚀 VISIT BUTTON (Medium aur Sundar) 🚀 */
         .visit-btn {
             background-color: #00ea77;
             color: #000;
             border: none;
-            padding: 14px 24px; /* Button ki height aur width badhayi */
+            padding: 10px 16px; /* Button ko thoda chota aur smart kiya */
             border-radius: 8px;
             font-weight: 800;
-            font-size: 16px; /* Button ka Text Bada */
+            font-size: 13px; /* Button ka text chota kiya */
             cursor: pointer;
             box-shadow: 0 4px 10px rgba(0, 234, 119, 0.2);
             white-space: nowrap;
-            margin-left: 10px;
+            margin-left: 8px;
         }
 
         .visit-btn:active {
@@ -113,11 +111,10 @@
             .then(myTools => {
                 
                 if (myTools.length === 0) {
-                    container.innerHTML = '<p style="text-align:center; color:#8b949e; padding: 20px; font-size: 18px;">Abhi koi tool add nahi hua hai. Admin panel se add karein!</p>';
+                    container.innerHTML = '<p style="text-align:center; color:#8b949e; padding: 20px; font-size: 15px;">Abhi koi tool add nahi hua hai. Admin panel se add karein!</p>';
                     return;
                 }
 
-                // NAYA JS: Ab table row <tr> nahi, balki bade <div> box banayega
                 myTools.forEach((tool, index) => {
                     container.innerHTML += `
                         <div class="list-item">
@@ -132,7 +129,7 @@
             })
             .catch(error => {
                 console.error('Error:', error);
-                container.innerHTML = '<p style="text-align:center; color:#da3633; font-size: 18px;">Data load nahi ho paya!</p>';
+                container.innerHTML = '<p style="text-align:center; color:#da3633; font-size: 15px;">Data load nahi ho paya!</p>';
             });
 
         function visitSite(url) {
