@@ -16,11 +16,11 @@
         }
 
         body {
-            background-color: #0d1117; /* Deep dark background */
+            background-color: #0d1117; 
             color: #c9d1d9;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start; /* Ye center se flex-start kiya taaki top se aaye aur gap na bache */
             min-height: 100vh;
             padding: 40px 20px;
         }
@@ -75,10 +75,11 @@
             font-size: 15px;
             font-weight: 500;
             border-bottom: 1px solid #21262d;
+            word-break: break-word; /* Lamba text katne se rokega */
         }
 
         tr:last-child td {
-            border-bottom: none; /* Removes border from the last row */
+            border-bottom: none; 
         }
 
         tr {
@@ -86,7 +87,7 @@
         }
 
         tr:hover {
-            background-color: #1f242c; /* Subtle hover effect */
+            background-color: #1f242c; 
         }
 
         /* Action Button */
@@ -101,6 +102,7 @@
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 10px rgba(0, 234, 119, 0.2);
+            white-space: nowrap; /* Button ka text 1 line me rakhega */
         }
 
         .visit-btn:hover {
@@ -111,6 +113,35 @@
 
         .visit-btn:active {
             transform: translateY(0);
+        }
+
+        /* ===== MOBILE RESPONSIVE CSS ===== */
+        @media screen and (max-width: 600px) {
+            body {
+                padding: 15px 10px; /* Mobile par side ki space kam ki */
+            }
+            .container {
+                padding: 20px 15px; /* Container ke andar ki extra space hatayi */
+                border-radius: 12px;
+            }
+            h1 {
+                font-size: 20px;
+                margin-bottom: 25px;
+            }
+            th, td {
+                padding: 12px 8px; /* Box chota kiya mobile ke liye */
+            }
+            th {
+                font-size: 10px;
+                letter-spacing: 1px;
+            }
+            td {
+                font-size: 13px; /* Text thoda chota kiya taaki screen me fit aaye */
+            }
+            .visit-btn {
+                padding: 6px 14px;
+                font-size: 11px;
+            }
         }
     </style>
 </head>
@@ -124,8 +155,8 @@
                 <thead>
                     <tr>
                         <th width="15%">S.NO</th>
-                        <th width="65%">TOOLS NAME</th>
-                        <th width="20%">ACTION</th>
+                        <th width="60%">TOOLS NAME</th>
+                        <th width="25%">ACTION</th>
                     </tr>
                 </thead>
                 <tbody id="toolsListBody">
