@@ -3,152 +3,133 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Herosalman1 | Projects</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <title>Herosalman1 Tools Dashboard</title>
     <style>
-        :root {
-            --bg: #000000;
-            --card-bg: #0a0a0a;
-            --border: #222222;
-            --text: #ededed;
-            --muted: #a1a1aa;
-            --hover: #111111;
-        }
+        /* Modern Font & Reset */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
         
-        * { 
-            box-sizing: border-box; 
-            margin: 0; 
-            padding: 0; 
-            font-family: 'Inter', -apple-system, sans-serif; 
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
         }
-        
-        body { 
-            background-color: var(--bg); 
-            color: var(--text); 
-            padding: 80px 20px; 
-            display: flex; 
-            justify-content: center; 
+
+        body {
+            background-color: #0d1117; /* Deep dark background */
+            color: #c9d1d9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             min-height: 100vh;
+            padding: 40px 20px;
         }
-        
-        .container { 
-            width: 100%; 
-            max-width: 850px; 
+
+        /* Sleek Container */
+        .container {
+            width: 100%;
+            max-width: 950px;
+            background-color: #161b22;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            border: 1px solid #30363d;
         }
-        
-        .header { 
-            margin-bottom: 32px; 
-        }
-        
-        .header h1 { 
-            font-size: 24px; 
-            font-weight: 600; 
-            letter-spacing: -0.5px; 
-            color: var(--text);
-        }
-        
-        .header p { 
-            color: var(--muted); 
-            font-size: 14px; 
-            margin-top: 6px; 
-        }
-        
-        .card { 
-            background-color: var(--card-bg); 
-            border: 1px solid var(--border); 
-            border-radius: 8px; 
-            overflow: hidden; 
-        }
-        
-        table { 
-            width: 100%; 
-            border-collapse: collapse; 
-        }
-        
-        th, td { 
-            padding: 16px 24px; 
-            text-align: left; 
-            border-bottom: 1px solid var(--border); 
-            font-size: 14px; 
-        }
-        
-        th { 
-            color: var(--muted); 
-            font-weight: 500; 
-            font-size: 12px; 
-            text-transform: uppercase;
+
+        /* Neon Title */
+        h1 {
+            text-align: center;
+            color: #00ff88;
+            margin-bottom: 40px;
+            font-size: 26px;
+            font-weight: 700;
             letter-spacing: 0.5px;
-            background-color: #050505;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.2);
         }
-        
-        tr:last-child td { 
-            border-bottom: none; 
+
+        /* Table Styling */
+        .table-wrapper {
+            overflow-x: auto;
         }
-        
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th, td {
+            padding: 18px 20px;
+        }
+
+        th {
+            color: #8b949e;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            border-bottom: 1px solid #30363d;
+        }
+
+        td {
+            font-size: 15px;
+            font-weight: 500;
+            border-bottom: 1px solid #21262d;
+        }
+
+        tr:last-child td {
+            border-bottom: none; /* Removes border from the last row */
+        }
+
         tr {
-            transition: background-color 0.2s;
-        }
-        
-        tr:hover { 
-            background-color: var(--hover); 
-        }
-        
-        .s-no {
-            color: var(--muted);
+            transition: background-color 0.2s ease;
         }
 
-        .tool-name { 
-            font-weight: 500; 
-            color: var(--text); 
-        }
-        
-        .btn { 
-            background: transparent; 
-            color: var(--text); 
-            border: 1px solid var(--border); 
-            padding: 8px 16px; 
-            border-radius: 6px; 
-            font-size: 12px; 
-            font-weight: 500; 
-            cursor: pointer; 
-            transition: all 0.2s; 
-            display: inline-flex; 
-            align-items: center; 
-            gap: 8px;
-        }
-        
-        .btn:hover { 
-            background: var(--text); 
-            color: var(--bg); 
-            border-color: var(--text);
+        tr:hover {
+            background-color: #1f242c; /* Subtle hover effect */
         }
 
-        .btn svg { 
-            width: 14px; 
-            height: 14px; 
-            fill: currentColor;
+        /* Action Button */
+        .visit-btn {
+            background-color: #00ea77;
+            color: #000000;
+            border: none;
+            padding: 8px 24px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 234, 119, 0.2);
+        }
+
+        .visit-btn:hover {
+            background-color: #00ff88;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 234, 119, 0.4);
+        }
+
+        .visit-btn:active {
+            transform: translateY(0);
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <div class="header">
-            <h1>Herosalman1 Repository</h1>
-            <p>A collection of my custom front-end tools, scripts, and generators.</p>
-        </div>
+        <h1>#Herosalman1 All Tool's 😎🔥</h1>
         
-        <div class="card">
+        <div class="table-wrapper">
             <table>
                 <thead>
                     <tr>
-                        <th width="10%">#</th>
-                        <th width="70%">Project Name</th>
-                        <th width="20%">Link</th>
+                        <th width="15%">S.NO</th>
+                        <th width="65%">TOOLS NAME</th>
+                        <th width="20%">ACTION</th>
                     </tr>
                 </thead>
                 <tbody id="toolsListBody">
-                    <!-- JS automatically lists tools here from tools.json -->
+                    <!-- JS automatically lists tools here -->
                 </tbody>
             </table>
         </div>
@@ -157,35 +138,49 @@
     <script>
         const tableBody = document.getElementById('toolsListBody');
 
-        // GitHub se direct live data fetch karega
+        // Yahan se tools.json ko fetch karega
         fetch('tools.json')
             .then(response => response.json())
             .then(myTools => {
+                
+                // Agar list khali hai (0 entry), toh ye message dikhayega
+                if (myTools.length === 0) {
+                    tableBody.innerHTML = `
+                        <tr>
+                            <td colspan="3" style="text-align:center; color:#8b949e; padding: 30px;">
+                                Abhi koi tool add nahi hua hai. Admin panel se add karein!
+                            </td>
+                        </tr>`;
+                    return;
+                }
+
+                // Agar tools hain, toh list banayega
                 myTools.forEach((tool, index) => {
                     const row = document.createElement('tr');
+                    
                     row.innerHTML = `
-                        <td class="s-no">${(index + 1).toString().padStart(2, '0')}</td>
-                        <td class="tool-name">${tool.name}</td>
+                        <td>${index + 1}</td>
+                        <td style="color: #ffffff;">${tool.name}</td>
                         <td>
-                            <button class="btn" onclick="visitSite('${tool.url}')">
-                                Visit
-                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M10 6V8H5V19H16V14H18V20C18 20.5523 17.5523 21 17 21H4C3.44772 21 3 20.5523 3 20V7C3 6.44772 3.44772 6 4 6H10ZM21 3V11H19L18.9999 6.413L11.2071 14.2071L9.79289 12.7929L17.5849 5H13V3H21Z"/>
-                                </svg>
-                            </button>
+                            <button class="visit-btn" onclick="visitSite('${tool.url}')">VISIT 🚀</button>
                         </td>
                     `;
+                    
                     tableBody.appendChild(row);
                 });
             })
             .catch(error => {
-                console.error('Error loading tools:', error);
-                tableBody.innerHTML = '<tr><td colspan="3" style="text-align:center; color:red;">Error loading data. Make sure tools.json exists.</td></tr>';
+                console.error('Error:', error);
+                tableBody.innerHTML = '<tr><td colspan="3" style="text-align:center; color:#da3633;">Data load nahi ho paya!</td></tr>';
             });
 
+        // Background me link open karne ka function
         function visitSite(url) {
-            if (url && url !== "#") window.open(url, '_blank');
-            else alert("Link abhi add nahi kiya hai.");
+            if (url && url !== "YOUR_LINK_HERE" && url !== "#") {
+                window.open(url, '_blank');
+            } else {
+                alert("Salman bhai, is tool ka link abhi add nahi hua hai!");
+            }
         }
     </script>
 
