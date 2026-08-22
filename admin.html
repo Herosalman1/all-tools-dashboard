@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Salman Bhai Ka Control Room</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>#herosalman1 Deshboard</title>
+    <!-- Yeh line mobile me auto-desktop mode ke liye hai -->
+    <meta name="viewport" content="width=1024">
     <style>
         * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background: #0d1117; color: #c9d1d9; padding: 20px; max-width: 600px; margin: auto; display: flex; flex-direction: column; min-height: 100vh; justify-content: center;}
@@ -11,14 +12,34 @@
         input { width: 100%; padding: 14px; margin: 15px 0; background: #010409; color: white; border: 1px solid #30363d; border-radius: 8px; text-align: center; font-size: 16px;}
         input:focus { border-color: #00ff88; outline: none; }
         button { padding: 14px 15px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; font-size: 15px; transition: 0.3s;}
+        
         .btn-green { background: #238636; color: white; }
         .btn-green:hover { background: #2ea043; }
         .btn-blue { background: #1f6feb; color: white; }
         .btn-blue:hover { background: #388bfd; }
-        .btn-red { background: #da3633; color: white; padding: 6px 12px; width: auto; margin-top: 0; font-size: 12px;}
+        .btn-orange { background: #d29922; color: white; }
+        .btn-orange:hover { background: #e3b341; }
+        .btn-red { background: #da3633; color: white; padding: 6px 12px; width: auto; font-size: 12px;}
         .btn-red:hover { background: #f85149; }
+        .btn-yellow { background: #9e6a03; color: white; padding: 6px 12px; width: auto; font-size: 12px; margin-right: 5px;}
+        .btn-yellow:hover { background: #bb8009; }
+        
         .list-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding: 12px; background: #010409; border-radius: 8px; border: 1px solid #30363d; text-align: left;}
+        .action-btns { display: flex; align-items: center; }
         h2 { color: #00ff88; margin-top: 0;}
+
+        /* Modal (Pop-up) List Ke Liye */
+        .modal { display: none; position: fixed; z-index: 999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); align-items: center; justify-content: center; }
+        .modal-content { background: #161b22; padding: 20px; border-radius: 12px; border: 1px solid #30363d; width: 90%; max-width: 600px; max-height: 80vh; display: flex; flex-direction: column; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #30363d; padding-bottom: 10px; margin-bottom: 15px; }
+        .modal-header h3 { margin: 0; color: #fff; }
+        .close-btn { color: #da3633; font-size: 28px; font-weight: bold; cursor: pointer; background: none; border: none; width: auto; padding: 0; }
+        .close-btn:hover { color: #f85149; }
+        
+        #projectList { overflow-y: auto; padding-right: 5px; flex-grow: 1; }
+        #projectList::-webkit-scrollbar { width: 8px; }
+        #projectList::-webkit-scrollbar-track { background: #010409; border-radius: 4px; }
+        #projectList::-webkit-scrollbar-thumb { background: #30363d; border-radius: 4px; }
     </style>
 </head>
 <body>
@@ -27,30 +48,39 @@
         <h2>🔒 Admin Login</h2>
         <p style="color: #8b949e; font-size: 14px;">Sirf Salman Bhai Ke Liye</p>
         
-        <!-- Yahan sirf password ki tarah token dalega -->
         <input type="password" id="gitToken" placeholder="Apni Secret Key Yahan Daalo">
-        
         <button class="btn-green" onclick="loadData()">LOGIN & LOAD DATA</button>
     </div>
 
     <div class="box" id="editorSection" style="display:none; text-align: left; margin-top: 0;">
-        <h3 style="color:#00ea77; text-align: center; margin-top: 0;">➕ ADD NAYA TOOL</h3>
+        <h3 id="formTitle" style="color:#00ea77; text-align: center; margin-top: 0;">➕ ADD NAYA TOOL</h3>
         <input type="text" id="pName" placeholder="Tool Ka Naam (E.g. Prank Tool)">
         <input type="text" id="pLink" placeholder="Tool Ka Link (Paste here)">
-        <button class="btn-green" style="background:#00ea77; color:black;" onclick="addTool()">ADD TO LIST</button>
         
-        <h3 style="margin-top:35px; border-bottom: 1px solid #30363d; padding-bottom: 10px; color: #fff;">📋 SABHI TOOLS KI LIST</h3>
-        <div id="projectList" style="margin-top: 15px;"></div>
+        <!-- Main action button jo Add ya Update me badlega -->
+        <button id="actionBtn" class="btn-green" style="background:#00ea77; color:black;" onclick="processTool()">ADD TO LIST</button>
+        
+        <button class="btn-orange" style="margin-top:25px;" onclick="openModal()">📋 VIEW SAVED TOOLS LIST</button>
+        <button class="btn-blue" style="margin-top:15px;" onclick="saveToGitHub()">🚀 UPLOAD TO GITHUB</button>
+    </div>
 
-        <button class="btn-blue" style="margin-top:30px;" onclick="saveToGitHub()">🚀 UPLOAD TO GITHUB</button>
+    <!-- List ka Pop-up Box -->
+    <div id="listModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>📋 SABHI TOOLS KI LIST</h3>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div id="projectList"></div>
+        </div>
     </div>
 
     <script>
-        // SALMAN BHAI: Repository ka naam yahan fix kar diya hai
         const myRepo = "Herosalman1/all-tools-dashboard"; 
         
         let toolsArray = [];
         let fileSha = "";
+        let editIndex = null; // Track karega ki kaun sa tool edit ho raha hai
 
         async function loadData() {
             const token = document.getElementById('gitToken').value;
@@ -86,29 +116,71 @@
             toolsArray.forEach((tool, index) => {
                 list.innerHTML += `
                     <div class="list-item">
-                        <span style="font-size: 14px; font-weight: 500;">${index + 1}. ${tool.name}</span>
-                        <button class="btn-red" onclick="deleteTool(${index})">DELETE</button>
+                        <span style="font-size: 14px; font-weight: 500; max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${index + 1}. ${tool.name}</span>
+                        <div class="action-btns">
+                            <button class="btn-yellow" onclick="editTool(${index})">EDIT</button>
+                            <button class="btn-red" onclick="deleteTool(${index})">DELETE</button>
+                        </div>
                     </div>`;
             });
         }
 
-        function addTool() {
+        // Ye function check karega ki naya add karna hai ya purana update karna hai
+        function processTool() {
             const name = document.getElementById('pName').value.trim();
             const link = document.getElementById('pLink').value.trim();
             
-            if(name && link) {
-                toolsArray.push({name, url: link});
-                document.getElementById('pName').value = "";
-                document.getElementById('pLink').value = "";
-                renderList();
-            } else {
-                alert("Bhai, Tool ka Naam aur Link dono daalna zaroori hai!");
+            if(!name || !link) {
+                return alert("Bhai, Tool ka Naam aur Link dono daalna zaroori hai!");
             }
+
+            if(editIndex === null) {
+                // Naya add hoga
+                toolsArray.push({name, url: link});
+            } else {
+                // Purana update hoga
+                toolsArray[editIndex] = {name, url: link};
+                editIndex = null;
+                // Form reset wapas normal state me
+                document.getElementById('formTitle').innerText = "➕ ADD NAYA TOOL";
+                document.getElementById('actionBtn').innerText = "ADD TO LIST";
+                document.getElementById('actionBtn').style.background = "#00ea77";
+                document.getElementById('actionBtn').style.color = "black";
+            }
+
+            document.getElementById('pName').value = "";
+            document.getElementById('pLink').value = "";
+            renderList();
+            closeModal(); // List auto-close hogi taaki update dekha ja sake
+        }
+
+        // Edit button dabane par data input box me aa jayega
+        function editTool(index) {
+            editIndex = index;
+            document.getElementById('pName').value = toolsArray[index].name;
+            document.getElementById('pLink').value = toolsArray[index].url;
+            
+            document.getElementById('formTitle').innerText = "✏️ EDIT TOOL";
+            document.getElementById('actionBtn').innerText = "UPDATE TOOL";
+            document.getElementById('actionBtn').style.background = "#d29922";
+            document.getElementById('actionBtn').style.color = "white";
+            
+            closeModal(); // Modal band hoga taaki user form par edit kar sake
         }
 
         function deleteTool(index) {
             if(confirm("Pakka delete karna hai ye tool?")) {
                 toolsArray.splice(index, 1);
+                // Agar wahi tool delete ho raha ho jo edit mode me tha, toh form reset kar do
+                if(editIndex === index) {
+                    editIndex = null;
+                    document.getElementById('pName').value = "";
+                    document.getElementById('pLink').value = "";
+                    document.getElementById('formTitle').innerText = "➕ ADD NAYA TOOL";
+                    document.getElementById('actionBtn').innerText = "ADD TO LIST";
+                    document.getElementById('actionBtn').style.background = "#00ea77";
+                    document.getElementById('actionBtn').style.color = "black";
+                }
                 renderList();
             }
         }
@@ -138,7 +210,7 @@
                 if(response.ok) {
                     const data = await response.json();
                     fileSha = data.content.sha;
-                    alert("✅ Ekdum Mstt! Naya Tool main list me add ho gaya!");
+                    alert("✅ Ekdum Mstt! Changes GitHub par save ho gaye!");
                     uploadBtn.innerText = "🚀 UPLOAD TO GITHUB";
                 } else {
                     throw new Error("Save error");
@@ -147,6 +219,13 @@
                 alert("Save nahi hua! Internet ya key check karo.");
                 uploadBtn.innerText = "🚀 UPLOAD TO GITHUB";
             }
+        }
+
+        function openModal() {
+            document.getElementById('listModal').style.display = 'flex';
+        }
+        function closeModal() {
+            document.getElementById('listModal').style.display = 'none';
         }
     </script>
 </body>
