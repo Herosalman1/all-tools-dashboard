@@ -2,139 +2,96 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Ye line mobile ko bata rahi hai ki screen ko zoom out NAHI karna hai -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Herosalman1 Tools Dashboard</title>
     <style>
         /* Modern Font & Reset */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
         
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Inter', sans-serif;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
 
         body {
             background-color: #0d1117; 
             color: #c9d1d9;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            min-height: 100vh;
-            padding: 40px 20px;
+            padding: 15px 10px; /* Screen ke kinare par bohot kam gap */
         }
 
-        /* Sleek Container */
         .container {
             width: 100%;
-            max-width: 950px;
+            max-width: 800px;
+            margin: 0 auto;
             background-color: #161b22;
-            border-radius: 16px;
-            padding: 30px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            border-radius: 12px;
+            padding: 20px 10px; 
             border: 1px solid #30363d;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        /* Neon Title */
+        /* 👑 HEADING EKDUM BADI 👑 */
         h1 {
             text-align: center;
             color: #00ff88;
-            margin-bottom: 35px;
-            font-size: 28px;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            text-shadow: 0 0 10px rgba(0, 255, 136, 0.2);
+            margin-bottom: 25px;
+            font-size: 26px; /* Bada Font */
+            font-weight: 800;
+            text-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
         }
 
-        /* Table Styling */
-        .table-wrapper {
-            overflow-x: auto;
+        /* 📱 MOBILE APP JAISA LIST BOX 📱 */
+        .list-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #010409;
+            margin-bottom: 15px; /* Ek tool se dusre ke beech ka gap */
+            padding: 16px 15px; /* Box ke andar ki space (Bada banayega) */
+            border-radius: 12px;
+            border: 1px solid #30363d;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
+        .item-info {
+            display: flex;
+            align-items: center;
+            gap: 15px; 
+            flex: 1;
+            overflow: hidden;
         }
 
-        .col-sno { width: 10%; text-align: center; }
-        .col-name { width: auto; text-align: left; padding-left: 10px; }
-        .col-action { width: 1%; white-space: nowrap; text-align: right; }
-
-        th, td {
-            padding: 20px 10px;
-        }
-
-        th {
+        .sno {
             color: #8b949e;
-            font-size: 13px;
+            font-size: 18px; /* S.No Bada */
+            font-weight: 600;
+            min-width: 25px;
+        }
+
+        /* 📝 TOOLS KA NAAM BOHOT BADA 📝 */
+        .tool-name {
+            color: #ffffff;
+            font-size: 20px; /* Bada Size! */
             font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border-bottom: 1px solid #30363d;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        td {
-            font-size: 16px;
-            font-weight: 500;
-            border-bottom: 1px solid #21262d;
-            word-break: break-word;
-        }
-
-        tr:last-child td { border-bottom: none; }
-        tr:hover { background-color: #1f242c; }
-
-        /* Action Button */
+        /* 🚀 VISIT BUTTON BADA AUR CHOUDA 🚀 */
         .visit-btn {
             background-color: #00ea77;
-            color: #000000;
+            color: #000;
             border: none;
-            padding: 10px 24px;
+            padding: 14px 24px; /* Button ki height aur width badhayi */
             border-radius: 8px;
-            font-weight: 700;
-            font-size: 14px;
+            font-weight: 800;
+            font-size: 16px; /* Button ka Text Bada */
             cursor: pointer;
-            transition: all 0.3s ease;
             box-shadow: 0 4px 10px rgba(0, 234, 119, 0.2);
             white-space: nowrap;
+            margin-left: 10px;
         }
 
-        .visit-btn:hover {
-            background-color: #00ff88;
-            transform: translateY(-2px);
-        }
-
-        /* ===== 🔥 MOBILE KE LIYE EKDUM BADA SIZE (MEGA SIZE) 🔥 ===== */
-        @media screen and (max-width: 600px) {
-            body {
-                padding: 0; /* Side ki margin bilkul 0 kardi taaki poori screen mile */
-            }
-            .container {
-                padding: 15px 5px; 
-                border-radius: 0; /* Mobile par border hata di taaki space bache */
-                border: none;
-            }
-            h1 {
-                font-size: 30px; /* Badi Heading */
-                margin-bottom: 20px;
-            }
-            th, td {
-                padding: 25px 5px; /* Tools ke beech ka gap aur badha diya */
-            }
-            th {
-                font-size: 14px;
-            }
-            
-            /* S.No aur Text ko Double Size ka kiya */
-            .col-sno { font-size: 20px; font-weight: 700; }
-            .col-name { font-size: 24px; font-weight: 700; } /* 🔥 TEXT BOHOT BADA KIYA 🔥 */
-            
-            /* Button ko Full Bada kiya */
-            .visit-btn {
-                padding: 16px 28px; /* 🔥 BUTTON LAMBA AUR CHOUDA KIYA 🔥 */
-                font-size: 18px; /* Button ka text bada kiya */
-                border-radius: 10px;
-            }
+        .visit-btn:active {
+            transform: scale(0.95);
         }
     </style>
 </head>
@@ -142,57 +99,40 @@
 
     <div class="container">
         <h1>#Herosalman1 All Tool's 😎🔥</h1>
-        
-        <div class="table-wrapper">
-            <table>
-                <thead>
-                    <tr>
-                        <th class="col-sno">S.NO</th>
-                        <th class="col-name">TOOLS NAME</th>
-                        <th class="col-action">ACTION</th>
-                    </tr>
-                </thead>
-                <tbody id="toolsListBody">
-                    <!-- JS automatically lists tools here -->
-                </tbody>
-            </table>
+        <div id="toolsListBody">
+            <!-- JS automatically yahan naye style me tools list karega -->
         </div>
     </div>
 
     <script>
-        const tableBody = document.getElementById('toolsListBody');
+        const container = document.getElementById('toolsListBody');
 
+        // Yahan se tools.json ko fetch karega
         fetch('tools.json')
             .then(response => response.json())
             .then(myTools => {
                 
                 if (myTools.length === 0) {
-                    tableBody.innerHTML = `
-                        <tr>
-                            <td colspan="3" style="text-align:center; color:#8b949e; padding: 30px; font-size: 18px;">
-                                Abhi koi tool add nahi hua hai. Admin panel se add karein!
-                            </td>
-                        </tr>`;
+                    container.innerHTML = '<p style="text-align:center; color:#8b949e; padding: 20px; font-size: 18px;">Abhi koi tool add nahi hua hai. Admin panel se add karein!</p>';
                     return;
                 }
 
+                // NAYA JS: Ab table row <tr> nahi, balki bade <div> box banayega
                 myTools.forEach((tool, index) => {
-                    const row = document.createElement('tr');
-                    
-                    row.innerHTML = `
-                        <td class="col-sno">${index + 1}</td>
-                        <td class="col-name" style="color: #ffffff;">${tool.name}</td>
-                        <td class="col-action">
+                    container.innerHTML += `
+                        <div class="list-item">
+                            <div class="item-info">
+                                <span class="sno">${index + 1}</span>
+                                <span class="tool-name">${tool.name}</span>
+                            </div>
                             <button class="visit-btn" onclick="visitSite('${tool.url}')">VISIT 🚀</button>
-                        </td>
+                        </div>
                     `;
-                    
-                    tableBody.appendChild(row);
                 });
             })
             .catch(error => {
                 console.error('Error:', error);
-                tableBody.innerHTML = '<tr><td colspan="3" style="text-align:center; color:#da3633; font-size: 18px;">Data load nahi ho paya!</td></tr>';
+                container.innerHTML = '<p style="text-align:center; color:#da3633; font-size: 18px;">Data load nahi ho paya!</p>';
             });
 
         function visitSite(url) {
