@@ -20,7 +20,7 @@
             color: #c9d1d9;
             display: flex;
             justify-content: center;
-            align-items: flex-start; /* Ye center se flex-start kiya taaki top se aaye aur gap na bache */
+            align-items: flex-start;
             min-height: 100vh;
             padding: 40px 20px;
         }
@@ -75,7 +75,7 @@
             font-size: 15px;
             font-weight: 500;
             border-bottom: 1px solid #21262d;
-            word-break: break-word; /* Lamba text katne se rokega */
+            word-break: break-word;
         }
 
         tr:last-child td {
@@ -102,7 +102,7 @@
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 10px rgba(0, 234, 119, 0.2);
-            white-space: nowrap; /* Button ka text 1 line me rakhega */
+            white-space: nowrap;
         }
 
         .visit-btn:hover {
@@ -115,32 +115,32 @@
             transform: translateY(0);
         }
 
-        /* ===== MOBILE RESPONSIVE CSS ===== */
+        /* ===== MOBILE RESPONSIVE CSS (Ab Thoda Bada Dikhne Ke Liye) ===== */
         @media screen and (max-width: 600px) {
             body {
-                padding: 15px 10px; /* Mobile par side ki space kam ki */
+                padding: 15px 5px; /* Side ki blank space kam ki taaki page bada ho */
             }
             .container {
-                padding: 20px 15px; /* Container ke andar ki extra space hatayi */
+                padding: 20px 10px; 
                 border-radius: 12px;
             }
             h1 {
-                font-size: 20px;
+                font-size: 22px; /* Title thoda aur bada kiya */
                 margin-bottom: 25px;
             }
             th, td {
-                padding: 12px 8px; /* Box chota kiya mobile ke liye */
+                padding: 15px 8px; /* Rows (lines) ke beech ki height badhayi */
             }
             th {
-                font-size: 10px;
+                font-size: 12px; /* Table ki headings (S.NO, TOOLS) badi ki */
                 letter-spacing: 1px;
             }
             td {
-                font-size: 13px; /* Text thoda chota kiya taaki screen me fit aaye */
+                font-size: 15px; /* Tools ke naam ka font bada kiya */
             }
             .visit-btn {
-                padding: 6px 14px;
-                font-size: 11px;
+                padding: 8px 16px; /* Button ko thoda lamba aur chouda kiya */
+                font-size: 13px; /* Button ke andar ka text bada kiya */
             }
         }
     </style>
@@ -174,7 +174,6 @@
             .then(response => response.json())
             .then(myTools => {
                 
-                // Agar list khali hai (0 entry), toh ye message dikhayega
                 if (myTools.length === 0) {
                     tableBody.innerHTML = `
                         <tr>
@@ -185,7 +184,6 @@
                     return;
                 }
 
-                // Agar tools hain, toh list banayega
                 myTools.forEach((tool, index) => {
                     const row = document.createElement('tr');
                     
