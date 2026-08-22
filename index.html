@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Herosalman1 Tools Dashboard</title>
     <style>
         /* Modern Font & Reset */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
         
         * {
             box-sizing: border-box;
@@ -57,10 +57,9 @@
             border-collapse: collapse;
         }
 
-        /* Classes for columns to control width and spacing perfectly */
         .col-sno { width: 10%; text-align: center; }
         .col-name { width: auto; text-align: left; padding-left: 10px; }
-        .col-action { width: 1%; white-space: nowrap; text-align: right; } /* 1% trick to shrink action column */
+        .col-action { width: 1%; white-space: nowrap; text-align: right; }
 
         th, td {
             padding: 20px 10px;
@@ -69,7 +68,7 @@
         th {
             color: #8b949e;
             font-size: 13px;
-            font-weight: 600;
+            font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1px;
             border-bottom: 1px solid #30363d;
@@ -82,13 +81,8 @@
             word-break: break-word;
         }
 
-        tr:last-child td {
-            border-bottom: none; 
-        }
-
-        tr:hover {
-            background-color: #1f242c; 
-        }
+        tr:last-child td { border-bottom: none; }
+        tr:hover { background-color: #1f242c; }
 
         /* Action Button */
         .visit-btn {
@@ -108,37 +102,38 @@
         .visit-btn:hover {
             background-color: #00ff88;
             transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(0, 234, 119, 0.4);
         }
 
-        /* ===== MOBILE RESPONSIVE CSS (Bigger, Tighter, Better) ===== */
+        /* ===== 🔥 MOBILE KE LIYE EKDUM BADA SIZE (MEGA SIZE) 🔥 ===== */
         @media screen and (max-width: 600px) {
             body {
-                padding: 10px 5px; /* Side margin ekdum kam kar diya taaki screen width mile */
+                padding: 0; /* Side ki margin bilkul 0 kardi taaki poori screen mile */
             }
             .container {
-                padding: 20px 8px; 
-                border-radius: 12px;
+                padding: 15px 5px; 
+                border-radius: 0; /* Mobile par border hata di taaki space bache */
+                border: none;
             }
             h1 {
-                font-size: 24px; 
+                font-size: 30px; /* Badi Heading */
                 margin-bottom: 20px;
             }
             th, td {
-                padding: 18px 5px; /* Horizontal gap kam kiya, Vertical size badhaya */
+                padding: 25px 5px; /* Tools ke beech ka gap aur badha diya */
             }
             th {
-                font-size: 11px;
+                font-size: 14px;
             }
             
-            /* Text & Column Adjustments for Mobile */
-            .col-sno { width: 12%; font-size: 14px; }
-            .col-name { font-size: 17px; font-weight: 600; } /* Text ekdum bold aur bada kiya */
+            /* S.No aur Text ko Double Size ka kiya */
+            .col-sno { font-size: 20px; font-weight: 700; }
+            .col-name { font-size: 24px; font-weight: 700; } /* 🔥 TEXT BOHOT BADA KIYA 🔥 */
             
-            /* Button Bada Kiya */
+            /* Button ko Full Bada kiya */
             .visit-btn {
-                padding: 12px 18px; 
-                font-size: 14px; 
+                padding: 16px 28px; /* 🔥 BUTTON LAMBA AUR CHOUDA KIYA 🔥 */
+                font-size: 18px; /* Button ka text bada kiya */
+                border-radius: 10px;
             }
         }
     </style>
@@ -167,7 +162,6 @@
     <script>
         const tableBody = document.getElementById('toolsListBody');
 
-        // Yahan se tools.json ko fetch karega
         fetch('tools.json')
             .then(response => response.json())
             .then(myTools => {
@@ -175,7 +169,7 @@
                 if (myTools.length === 0) {
                     tableBody.innerHTML = `
                         <tr>
-                            <td colspan="3" style="text-align:center; color:#8b949e; padding: 30px; font-size: 16px;">
+                            <td colspan="3" style="text-align:center; color:#8b949e; padding: 30px; font-size: 18px;">
                                 Abhi koi tool add nahi hua hai. Admin panel se add karein!
                             </td>
                         </tr>`;
@@ -198,10 +192,9 @@
             })
             .catch(error => {
                 console.error('Error:', error);
-                tableBody.innerHTML = '<tr><td colspan="3" style="text-align:center; color:#da3633; font-size: 16px;">Data load nahi ho paya!</td></tr>';
+                tableBody.innerHTML = '<tr><td colspan="3" style="text-align:center; color:#da3633; font-size: 18px;">Data load nahi ho paya!</td></tr>';
             });
 
-        // Background me link open karne ka function
         function visitSite(url) {
             if (url && url !== "YOUR_LINK_HERE" && url !== "#") {
                 window.open(url, '_blank');
