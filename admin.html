@@ -24,14 +24,14 @@
         .btn-yellow { background: #9e6a03; color: white; padding: 6px 12px; width: auto; font-size: 12px; margin-right: 5px;}
         .btn-yellow:hover { background: #bb8009; }
         
-        /* Drag & Drop Styles Add Kiye Hain */
+        /* Drag & Drop Styles */
         .list-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding: 12px; background: #010409; border-radius: 8px; border: 1px solid #30363d; text-align: left; cursor: grab; transition: background 0.2s ease;}
         .list-item:active { cursor: grabbing; }
         .list-item.dragging { opacity: 0.4; background: #21262d; border: 1px dashed #8b949e; }
         .list-item.drag-over { border-top: 3px solid #00ea77; transform: scale(1.01); }
-        .drag-icon { margin-right: 12px; color: #8b949e; font-size: 18px; cursor: grab; }
+        .drag-icon { margin-right: 12px; color: #8b949e; font-size: 18px; cursor: grab; display: flex; align-items: center;}
         
-        .action-btns { display: flex; align-items: center; }
+        .action-btns { display: flex; align-items: center; flex-shrink: 0; }
         h2 { color: #00ff88; margin-top: 0;}
 
         /* Modal (Pop-up) List Ke Liye */
@@ -87,7 +87,7 @@
         let toolsArray = [];
         let fileSha = "";
         let editIndex = null; 
-        let dragStartIndex = null; // Drag & Drop Index Tracker
+        let dragStartIndex = null; 
 
         async function loadData() {
             const token = document.getElementById('gitToken').value;
@@ -117,16 +117,16 @@
             }
         }
 
-        // Render List & Add Drag-Drop Events
         function renderList() {
             const list = document.getElementById('projectList');
             list.innerHTML = "";
             toolsArray.forEach((tool, index) => {
                 list.innerHTML += `
                     <div class="list-item" draggable="true" data-index="${index}">
-                        <div style="display: flex; align-items: center; overflow: hidden;">
+                        <!-- YAHAN DOT DOT WALA CODE HATA DIYA HAI. Ab naam poora wrap hoga -->
+                        <div style="display: flex; align-items: center; flex: 1; padding-right: 10px;">
                             <span class="drag-icon">☰</span>
-                            <span style="font-size: 14px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px;">
+                            <span style="font-size: 14px; font-weight: 500; word-break: break-word; line-height: 1.4;">
                                 ${index + 1}. ${tool.name}
                             </span>
                         </div>
@@ -139,7 +139,6 @@
             addDragAndDropListeners();
         }
 
-        // Drag and Drop Logic Engine
         function addDragAndDropListeners() {
             const draggables = document.querySelectorAll('.list-item');
             
@@ -177,7 +176,7 @@
         function swapItems(fromIndex, toIndex) {
             const itemToMove = toolsArray.splice(fromIndex, 1)[0];
             toolsArray.splice(toIndex, 0, itemToMove);
-            renderList(); // Wapas render karega new order me (Numbers auto set ho jayenge 1,2,3...)
+            renderList(); 
         }
 
         function processTool() {
