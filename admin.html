@@ -24,7 +24,13 @@
         .btn-yellow { background: #9e6a03; color: white; padding: 6px 12px; width: auto; font-size: 12px; margin-right: 5px;}
         .btn-yellow:hover { background: #bb8009; }
         
-        .list-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding: 12px; background: #010409; border-radius: 8px; border: 1px solid #30363d; text-align: left;}
+        /* Drag & Drop Styles Add Kiye Hain */
+        .list-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding: 12px; background: #010409; border-radius: 8px; border: 1px solid #30363d; text-align: left; cursor: grab; transition: background 0.2s ease;}
+        .list-item:active { cursor: grabbing; }
+        .list-item.dragging { opacity: 0.4; background: #21262d; border: 1px dashed #8b949e; }
+        .list-item.drag-over { border-top: 3px solid #00ea77; transform: scale(1.01); }
+        .drag-icon { margin-right: 12px; color: #8b949e; font-size: 18px; cursor: grab; }
+        
         .action-btns { display: flex; align-items: center; }
         h2 { color: #00ff88; margin-top: 0;}
 
@@ -57,7 +63,6 @@
         <input type="text" id="pName" placeholder="Tool Ka Naam (E.g. Prank Tool)">
         <input type="text" id="pLink" placeholder="Tool Ka Link (Paste here)">
         
-        <!-- Main action button jo Add ya Update me badlega -->
         <button id="actionBtn" class="btn-green" style="background:#00ea77; color:black;" onclick="processTool()">ADD TO LIST</button>
         
         <button class="btn-orange" style="margin-top:25px;" onclick="openModal()">📋 VIEW SAVED TOOLS LIST</button>
@@ -71,6 +76,7 @@
                 <h3>📋 SABHI TOOLS KI LIST</h3>
                 <button class="close-btn" onclick="closeModal()">&times;</button>
             </div>
+            <p style="color:#8b949e; font-size:12px; margin-top:0;">💡 Tip: List ko order karne ke liye mouse se hold karke upar-neeche drag karein.</p>
             <div id="projectList"></div>
         </div>
     </div>
@@ -80,7 +86,8 @@
         
         let toolsArray = [];
         let fileSha = "";
-        let editIndex = null; // Track karega ki kaun sa tool edit ho raha hai
+        let editIndex = null; 
+        let dragStartIndex = null; // Drag & Drop Index Tracker
 
         async function loadData() {
             const token = document.getElementById('gitToken').value;
@@ -110,22 +117,69 @@
             }
         }
 
+        // Render List & Add Drag-Drop Events
         function renderList() {
             const list = document.getElementById('projectList');
             list.innerHTML = "";
             toolsArray.forEach((tool, index) => {
                 list.innerHTML += `
-                    <div class="list-item">
-                        <span style="font-size: 14px; font-weight: 500; max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${index + 1}. ${tool.name}</span>
+                    <div class="list-item" draggable="true" data-index="${index}">
+                        <div style="display: flex; align-items: center; overflow: hidden;">
+                            <span class="drag-icon">☰</span>
+                            <span style="font-size: 14px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px;">
+                                ${index + 1}. ${tool.name}
+                            </span>
+                        </div>
                         <div class="action-btns">
                             <button class="btn-yellow" onclick="editTool(${index})">EDIT</button>
                             <button class="btn-red" onclick="deleteTool(${index})">DELETE</button>
                         </div>
                     </div>`;
             });
+            addDragAndDropListeners();
         }
 
-        // Ye function check karega ki naya add karna hai ya purana update karna hai
+        // Drag and Drop Logic Engine
+        function addDragAndDropListeners() {
+            const draggables = document.querySelectorAll('.list-item');
+            
+            draggables.forEach(draggable => {
+                draggable.addEventListener('dragstart', function(e) {
+                    dragStartIndex = +this.getAttribute('data-index');
+                    this.classList.add('dragging');
+                });
+
+                draggable.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                });
+
+                draggable.addEventListener('dragenter', function(e) {
+                    e.preventDefault();
+                    this.classList.add('drag-over');
+                });
+
+                draggable.addEventListener('dragleave', function() {
+                    this.classList.remove('drag-over');
+                });
+
+                draggable.addEventListener('drop', function() {
+                    this.classList.remove('drag-over');
+                    const dragEndIndex = +this.getAttribute('data-index');
+                    swapItems(dragStartIndex, dragEndIndex);
+                });
+
+                draggable.addEventListener('dragend', function() {
+                    this.classList.remove('dragging');
+                });
+            });
+        }
+
+        function swapItems(fromIndex, toIndex) {
+            const itemToMove = toolsArray.splice(fromIndex, 1)[0];
+            toolsArray.splice(toIndex, 0, itemToMove);
+            renderList(); // Wapas render karega new order me (Numbers auto set ho jayenge 1,2,3...)
+        }
+
         function processTool() {
             const name = document.getElementById('pName').value.trim();
             const link = document.getElementById('pLink').value.trim();
@@ -135,13 +189,10 @@
             }
 
             if(editIndex === null) {
-                // Naya add hoga
                 toolsArray.push({name, url: link});
             } else {
-                // Purana update hoga
                 toolsArray[editIndex] = {name, url: link};
                 editIndex = null;
-                // Form reset wapas normal state me
                 document.getElementById('formTitle').innerText = "➕ ADD NAYA TOOL";
                 document.getElementById('actionBtn').innerText = "ADD TO LIST";
                 document.getElementById('actionBtn').style.background = "#00ea77";
@@ -151,10 +202,9 @@
             document.getElementById('pName').value = "";
             document.getElementById('pLink').value = "";
             renderList();
-            closeModal(); // List auto-close hogi taaki update dekha ja sake
+            closeModal(); 
         }
 
-        // Edit button dabane par data input box me aa jayega
         function editTool(index) {
             editIndex = index;
             document.getElementById('pName').value = toolsArray[index].name;
@@ -165,13 +215,12 @@
             document.getElementById('actionBtn').style.background = "#d29922";
             document.getElementById('actionBtn').style.color = "white";
             
-            closeModal(); // Modal band hoga taaki user form par edit kar sake
+            closeModal(); 
         }
 
         function deleteTool(index) {
             if(confirm("Pakka delete karna hai ye tool?")) {
                 toolsArray.splice(index, 1);
-                // Agar wahi tool delete ho raha ho jo edit mode me tha, toh form reset kar do
                 if(editIndex === index) {
                     editIndex = null;
                     document.getElementById('pName').value = "";
